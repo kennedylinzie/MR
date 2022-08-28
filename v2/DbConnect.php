@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 //these are the server details
 //the username is root by default in case of xampp
 //password is nothing by default
