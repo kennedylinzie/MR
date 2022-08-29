@@ -319,7 +319,7 @@ case 'Update_user':
 
 
 case 'add_gurdian':
-    if(isTheseParametersAvailable(array('g_name','g_lastname','g_relation','g_phone_number','g_email'))){
+    if(isTheseParametersAvailable(array('g_name','g_lastname','g_relation','g_phone_number','g_email','patient_id'))){
     
 //guardian register
 $g_name = $_POST['g_name']; 
@@ -327,12 +327,11 @@ $g_lastname = $_POST['g_lastname'];
 $g_relation = $_POST['g_relation']; 
 $g_phone_number = $_POST['g_phone_number']; 
 $g_email = $_POST['g_email'];  
+$patient_id = $_POST['patient_id'];
 
 
 
-
-
-if($g_name == "" || $g_lastname == "" || $g_relation == "" || $g_phone_number == "" || $g_email == "" || $g_phone_number == "" )
+if($g_name == "" || $g_lastname == "" || $g_relation == "" || $g_phone_number == "" || $g_email == "" || $g_phone_number == "" || $patient_id == "" )
 {
 
   $array = array("status"=>"failed","message"=>"data missing somewhere");
@@ -341,7 +340,7 @@ if($g_name == "" || $g_lastname == "" || $g_relation == "" || $g_phone_number ==
 }else
 {
                                                   
-    $sql = "SELECT COUNT(g_uuid) FROM guardian";
+    $sql = "SELECT COUNT(g_uuid) FROM guardian Where patient_id='$patient_id'";
 
     $result = mysqli_query($conn, $sql);
     
@@ -373,23 +372,23 @@ $duplicate=mysqli_query($conn,"select * from guardian where  g_name='$g_name' an
            // $password = md5($password);
 
 
-            
-$sql = "INSERT INTO `guardian`(g_name,g_lastname,g_relation,g_phone_number,g_email)
-VALUES ('$g_name','$g_lastname','$g_relation','$g_phone_number','$g_email')";
-if (mysqli_query($conn, $sql)) {
+                    
+        $sql = "INSERT INTO `guardian`(g_name,g_lastname,g_relation,g_phone_number,g_email,patient_id)
+        VALUES ('$g_name','$g_lastname','$g_relation','$g_phone_number','$g_email','$patient_id')";
+        if (mysqli_query($conn, $sql)) {
 
-                        
-                        $array = array("status"=>"success","message"=>"Successful");
-                        echo json_encode($array);
-                            
+                                
+                                $array = array("status"=>"success","message"=>"Successful");
+                                echo json_encode($array);
+                                    
 
-                }
-                else {
+                        }
+                        else {
+                                
+                                $array = array("status"=>"failed","message"=>"NOT Successful");
+                                echo json_encode($array);
                         
-                        $array = array("status"=>"failed","message"=>"NOT Successful");
-                        echo json_encode($array);
-                
-                }
+                        }
 }
 }
 }else{
@@ -400,8 +399,10 @@ echo json_encode($array);
 break;
 
 case 'pullguardData':
+    if(isTheseParametersAvailable(array('patient_id'))){
+        $patient_id = $_POST['patient_id'];  
 
-               $sql = "SELECT * FROM guardian";
+               $sql = "SELECT * FROM guardian WHERE patient_id='$patient_id'";
 
                $result = mysqli_query($conn, $sql);
        
@@ -418,15 +419,16 @@ case 'pullguardData':
                    }
        
                } 
-               echo $json;
-       
-            
+                   echo $json;
+            }
+           
    break; 
 
     case 'Delete_guard':
- 
+        if(isTheseParametersAvailable(array('patient_id','g_name'))){
         $g_name = $_POST['g_name'];  
-        $duplicate=mysqli_query($conn,"SELECT * FROM guardian WHERE  g_name='$g_name'");
+        $patient_id = $_POST['patient_id'];  
+        $duplicate=mysqli_query($conn,"SELECT * FROM guardian WHERE  patient_id='$patient_id' and g_name='$g_name'");
             if (mysqli_num_rows($duplicate)>0)
             {
                     if($g_name == "" )
@@ -436,7 +438,7 @@ case 'pullguardData':
                     }
                   else
                 {
-                    $sql = "DELETE FROM `guardian`WHERE g_name='$g_name'";
+                    $sql = "DELETE FROM `guardian` WHERE g_name='$g_name' and patient_id='$patient_id'";
                     if (mysqli_query($conn, $sql)) 
                     {
                         $array = array("status"=>"success","message"=>"Successful");
@@ -444,7 +446,20 @@ case 'pullguardData':
                     }                 
                 }
             }
+        }
    break; 
+
+case 'ping':
+    
+// Check if server is alive
+if (mysqli_ping($conn)) {
+
+    echo "Connection is ok!";
+  } else {
+    echo "Error: ". mysqli_error($con);
+  }
+
+break; 
  
 
 
