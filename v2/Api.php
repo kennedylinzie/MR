@@ -9,7 +9,7 @@
  switch($_GET['apicall']){
  
  case 'signup':
-            if(isTheseParametersAvailable(array('First_name','Last_name','Age','Weight','Bloodpressure','Phone_number','Email','Existing_illness','Location','Password','Prescription','Latitude','Longitude'))){
+            if(isTheseParametersAvailable(array('First_name','Last_name','Age','Weight','Bloodpressure','Phone_number','Email','Existing_illness','Location','Password','Prescription','Latitude','Longitude','Membership_number'))){
             
         //PATIENT register
         $First_name = $_POST['First_name']; 
@@ -25,12 +25,13 @@
         $Prescription = $_POST['Prescription']; 
         $Latitude = $_POST['Latitude']; 
         $Longitude = $_POST['Longitude']; 
-
+        $Membership_number = $_POST['Membership_number']; 
+      
 
     $verified = "";
 
     if($First_name == "" || $Last_name == "" || $Age == "" || $Weight == "" || $Bloodpressure == "" || $Email == "" || $Phone_number == ""  || $Location == ""
-    && $Password == "" || $Prescription == "" || $Latitude == "" || $Longitude == "")
+    && $Password == "" || $Prescription == "" || $Latitude == "" || $Longitude == "" || $Membership_number ="")
     {
         
           $array = array("status"=>"failed","message"=>"data missing somewhere");
@@ -55,8 +56,8 @@
 
     
                     
-        $sql = "INSERT INTO `patient_table`(First_name,Last_name,Age,Weight,Bloodpressure,Email,Phone_number,Existing_illness,Location,Password,Prescription,Verified,Latitude,Longitude)
-        VALUES ('$First_name','$Last_name','$Age','$Weight','$Bloodpressure','$Email','$Phone_number','$Existing_illness','$Location','$Password','$Prescription','$verified','$Latitude','$Longitude')";
+        $sql = "INSERT INTO `patient_table`(First_name,Last_name,Age,Weight,Bloodpressure,Email,Phone_number,Existing_illness,Location,Password,Prescription,Verified,Latitude,Longitude,Membership_number)
+        VALUES ('$First_name','$Last_name','$Age','$Weight','$Bloodpressure','$Email','$Phone_number','$Existing_illness','$Location','$Password','$Prescription','$verified','$Latitude','$Longitude','$Membership_number')";
         if (mysqli_query($conn, $sql)) {
 
                                 
@@ -103,7 +104,7 @@
                      $array = array("status"=>"success","message"=>"successful","UU_ID"=>$row['UU_ID'],"First_name"=>$row['First_name'],"Last_name"=>$row['Last_name']
                      ,"Age"=>$row['Age'],"Weight"=>$row['Weight'],"Bloodpressure"=>$row['Bloodpressure'],"Email"=>$row['Email']
                      ,"Phone_number"=>$row['Phone_number'],"Existing_illness"=>$row['Existing_illness'],"Location"=>$row['Location']
-                     ,"Prescription"=>$row['Prescription'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude'],"Longitude"=>$row['Longitude']);
+                     ,"Prescription"=>$row['Prescription'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude'],"Longitude"=>$row['Longitude'],"Membership_number"=>$row['Membership_number']);
  
                                  echo json_encode($array);
  
@@ -120,7 +121,7 @@
  break; 
 
 
- case 'updateUser':
+ case '':
  
     if(isTheseParametersAvailable(array('id','username','email','gender'))){
     
@@ -148,7 +149,7 @@ case 'pullUserData':
             $array = array("status"=>"ok","message"=>"successful","UU_ID"=>$row['UU_ID'],"First_name"=>$row['First_name'],"Last_name"=>$row['Last_name']
             ,"Age"=>$row['Age'],"Weight"=>$row['Weight'],"Bloodpressure"=>$row['Bloodpressure'],"Email"=>$row['Email']
             ,"Phone_number"=>$row['Phone_number'],"Existing_illness"=>$row['Existing_illness'],"Location"=>$row['Location']
-            ,"Prescription"=>$row['Prescription'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude'],"Longitude"=>$row['Longitude']);
+            ,"Prescription"=>$row['Prescription'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude'],"Longitude"=>$row['Longitude'],"Membership_number"=>$row['Membership_number']);
 
                     echo json_encode($array);
 
@@ -160,7 +161,7 @@ break;
 
 case 'Update_user':
     //fetch user data
-    if(isTheseParametersAvailable(array('UU_ID','First_name','Last_name','Weight','Bloodpressure','Email','Phone_number','Existing_illness','Location','Prescription','Latitude','Longitude'))){
+    if(isTheseParametersAvailable(array('UU_ID','First_name','Last_name','Weight','Bloodpressure','Email','Phone_number','Existing_illness','Location','Prescription','Latitude','Longitude','Membership_number'))){
                  
     //	user update other details
     $UU_ID = $_POST['UU_ID'];
@@ -176,6 +177,7 @@ case 'Update_user':
     $Prescription = $_POST['Prescription'];
     $Latitude = $_POST['Latitude'];
     $Longitude = $_POST['Longitude'];
+    $Membership_number = $_POST['Membership_number'];
 
 
             if($First_name == "" || $Last_name == "" || $Age == "" || $Weight == "" || $Bloodpressure == "" || $Email == "" || $phone_number == ""  || $Location == ""
@@ -196,7 +198,7 @@ case 'Update_user':
                                                                                        
 
                 $sql = "UPDATE `patient_table` SET  First_name='$First_name' , Last_name='$Last_name' , Age='$Age' , Weight='$Weight' , Bloodpressure='$Bloodpressure',
-                Email='$Email', phone_number='$phone_number' , Existing_illness='$Existing_illness', Location='$Location', Prescription='$Prescription', Latitude='$Latitude', Longitude='$Longitude' WHERE UU_ID='$UU_ID'";
+                Email='$Email', phone_number='$phone_number' , Existing_illness='$Existing_illness', Location='$Location', Prescription='$Prescription', Latitude='$Latitude', Longitude='$Longitude', Membership_number='$Membership_number' WHERE UU_ID='$UU_ID'";
 
                         if (mysqli_query($conn, $sql)) {
                                          
@@ -454,9 +456,8 @@ case 'ping':
 // Check if server is alive
 if (mysqli_ping($conn)) {
 
-    echo "Connection is ok!";
-  } else {
-    echo "Error: ". mysqli_error($con);
+    $array = array("status"=>"success","message"=>"ok");
+    echo json_encode($array);
   }
 
 break; 
