@@ -41,6 +41,17 @@
     {
 
 
+        $duplicate=mysqli_query($conn,"select * from patient_table where  Membership_number='$$Membership_number'");
+        if (mysqli_num_rows($duplicate)>0)
+        {
+        
+            
+            $array = array("status"=>"failed","message"=>"Membership number already is user");
+            echo json_encode($array);
+            die();
+        }
+
+
         $duplicate=mysqli_query($conn,"select * from patient_table where  Phone_number='$Phone_number' and Email='$Email'");
                 if (mysqli_num_rows($duplicate)>0)
                 {
@@ -161,7 +172,7 @@ break;
 
 case 'Update_user':
     //fetch user data
-    if(isTheseParametersAvailable(array('UU_ID','First_name','Last_name','Weight','Bloodpressure','Email','Phone_number','Existing_illness','Location','Prescription','Latitude','Longitude','Membership_number'))){
+    if(isTheseParametersAvailable(array('UU_ID','First_name','Last_name','Weight','Bloodpressure','Email','Phone_number','Existing_illness','Location','Latitude','Longitude','Membership_number'))){
                  
     //	user update other details
     $UU_ID = $_POST['UU_ID'];
@@ -181,10 +192,10 @@ case 'Update_user':
 
 
             if($First_name == "" || $Last_name == "" || $Age == "" || $Weight == "" || $Bloodpressure == "" || $Email == "" || $phone_number == ""  || $Location == ""
-            && $Password == "" || $Prescription == "" || $Latitude == "" || $Longitude == "")
+            && $Password == "" || $Latitude == "" || $Longitude == ""|| $Latitude == "" || $Membership_number == "")
                 {
     				
-                    $array = array("status"=>"success","message"=>"data missing somewhere");
+                    $array = array("status"=>"failed","message"=>"data missing somewhere");
                     echo json_encode($array);
 
                     die();
@@ -235,7 +246,7 @@ case 'Update_user':
 
                     if($old_pass == "" || $new_pass == "" || $UU_ID == "" )
                     {
-                        
+
                         $array = array("status"=>"failed","message"=>"data missing somewheressful");
                         die();
                     }else
