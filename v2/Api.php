@@ -94,11 +94,28 @@
  
  case 'login':
  
-                if(isTheseParametersAvailable(array('Email', 'Password'))){
+                if(isTheseParametersAvailable(array('Email', 'Password' , 'membership_id'))){
     
              $Email = $_POST['Email']; 
             // $Password = md5($_POST['Password']);
              $Password = $_POST['Password'];
+             $membership_id = $_POST['membership_id'];
+
+
+
+             
+                 $sql = "SELECT * FROM member_table WHERE membership_id='$membership_id' Limit 1";
+                 $result = mysqli_query($conn, $sql);
+
+                 if (!mysqli_num_rows($result) > 0) {
+                     // output data of each row
+                     $array = array("status"=>"failed","message"=>"Not Member a registered member");
+                     echo json_encode($array);
+                     die();
+                    }
+             
+
+             
  
  
                  $duplicate=mysqli_query($conn,"SELECT * FROM patient_table WHERE  Email='$Email' AND Password='$Password'");
