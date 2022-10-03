@@ -489,6 +489,93 @@ if (mysqli_ping($conn)) {
   }
 
 break; 
+
+
+
+case 'add_prescription':
+    if(isTheseParametersAvailable(array('Drug_name','Amount_at_a_time','Total_dosage','Time_a_day','Condtion','Drug_strength'
+    ,'Drug_unit','Needs_refill','Intake_method','Take_with_Pregnancy','Ok_for_breastfeeding','TakeBeforeOrAfterMeal','Patient_ID'))){
+    
+//guardian register
+$Drug_name = $_POST['Drug_name']; 
+$Amount_at_a_time = $_POST['Amount_at_a_time']; 
+$Total_dosage = $_POST['Total_dosage']; 
+$Time_a_day = $_POST['Time_a_day']; 
+$Condtion = $_POST['Condtion'];  
+$Drug_strength = $_POST['Drug_strength'];
+$Drug_unit = $_POST['Drug_unit'];
+$Needs_refill = $_POST['Needs_refill'];
+$Intake_method = $_POST['Intake_method'];
+$Take_with_Pregnancy = $_POST['Take_with_Pregnancy'];
+$Ok_for_breastfeeding = $_POST['Ok_for_breastfeeding'];
+$TakeBeforeOrAfterMeal = $_POST['TakeBeforeOrAfterMeal'];
+$Patient_ID = $_POST['Patient_ID'];
+
+
+
+if($Drug_name == "" || $Amount_at_a_time == "" || $Total_dosage == "" || $Time_a_day == "" || $Condtion == "" || $Drug_strength == "" 
+|| $Drug_unit == "" || $Needs_refill == ""|| $Intake_method == ""|| $Take_with_Pregnancy == ""|| $Ok_for_breastfeeding == ""|| $TakeBeforeOrAfterMeal == ""|| $Patient_ID == "")
+{
+
+  $array = array("status"=>"failed","message"=>"data missing somewhere");
+  echo json_encode($array);
+  die();
+}else
+{
+ 
+$duplicate=mysqli_query($conn,"select * from medication_table where Drug_name='$Drug_name' and Amount_at_a_time='$Amount_at_a_time' and Total_dosage='$Total_dosage' and Time_a_day='$Time_a_day'");
+        if (mysqli_num_rows($duplicate)>0)
+        {
+        
+            
+            $array = array("status"=>"failed","message"=>"This Prescription already exists");
+            echo json_encode($array);
+            die();
+        }
+        else{
+
+           // $password = md5($password);
+
+           $Drug_name = $_POST['Drug_name']; 
+           $Amount_at_a_time = $_POST['Amount_at_a_time']; 
+           $Total_dosage = $_POST['Total_dosage']; 
+           $Time_a_day = $_POST['Time_a_day']; 
+           $Condtion = $_POST['Condtion'];  
+           $Drug_strength = $_POST['Drug_strength'];
+           $Drug_unit = $_POST['Drug_unit'];
+           $Needs_refill = $_POST['Needs_refill'];
+           $Intake_method = $_POST['Intake_method'];
+           $Take_with_Pregnancy = $_POST['Take_with_Pregnancy'];
+           $Ok_for_breastfeeding = $_POST['Ok_for_breastfeeding'];
+           $TakeBeforeOrAfterMeal = $_POST['TakeBeforeOrAfterMeal'];
+           $Patient_ID = $_POST['Patient_ID'];
+                    
+        $sql = "INSERT INTO `medication_table`(Drug_name ,Amount_at_a_time,Total_dosage,Time_a_day,Condtion,Drug_strength,Drug_unit,Needs_refill,
+        Intake_method,Take_with_Pregnancy,Ok_for_breastfeeding,TakeBeforeOrAfterMeal,Patient_ID)
+        VALUES ('$Drug_name','$Amount_at_a_time','$Total_dosage','$Time_a_day','$Condtion','$Drug_strength'
+        ,'$Drug_unit','$Needs_refill','$Intake_method','$Take_with_Pregnancy','$Ok_for_breastfeeding','$TakeBeforeOrAfterMeal','$Patient_ID')";
+        if (mysqli_query($conn, $sql)) {
+
+                                
+                                $array = array("status"=>"success","message"=>"Successful");
+                                echo json_encode($array);
+                                    
+
+                        }
+                        else {
+                                
+                                $array = array("status"=>"failed","message"=>"NOT Successful");
+                                echo json_encode($array);
+                        
+                        }
+}
+}
+}else{
+$array = array("status"=>"failed","message"=>"NOT Successful");
+echo json_encode($array);
+}
+    
+break;
  
 
 
