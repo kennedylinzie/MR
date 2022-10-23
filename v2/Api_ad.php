@@ -285,18 +285,29 @@ case 'Update_profile':
   
               if (mysqli_num_rows($result) > 0) {
                   // output data of each row
-                  while($row = mysqli_fetch_assoc($result)) {
-                    $tem = $row;
-                    //  echo "User found";
-        $array = array("status"=>"success","message"=>"successful","UU_ID"=>$row['UU_ID'],"First_name"=>$row['First_name'],"Last_name"=>$row['Last_name']
-        ,"Age"=>$row['Age'],"Weight"=>$row['Weight'],"Bloodpressure"=>$row['Bloodpressure'],"Email"=>$row['Email'],"Phone_number"=>$row['Phone_number']
-        ,"Existing_illness"=>$row['Existing_illness'],"Location"=>$row['Location'],"Prescription"=>$row['Prescription'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude']
-        ,"Longitude"=>$row['Longitude'],"Weight"=>$row['Weight']);
+                //   while($row = mysqli_fetch_assoc($result)) {
+                //     //$tem = $row;
+                //     //  echo "User found";
+                //     $array = array("status"=>"success","message"=>"successful","UU_ID"=>$row['UU_ID'],"First_name"=>$row['First_name'],"Last_name"=>$row['Last_name']
+                //     ,"Age"=>$row['Age'],"Weight"=>$row['Weight'],"Bloodpressure"=>$row['Bloodpressure'],"Email"=>$row['Email']
+                //     ,"Phone_number"=>$row['Phone_number'],"Existing_illness"=>$row['Existing_illness'],"Location"=>$row['Location']
+                //     ,"Prescription"=>$row['Prescription'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude'],"Longitude"=>$row['Longitude'],"Membership_number"=>$row['Membership_number']);
 
-                        echo json_encode($array);
-                       // echo json_encode(array("statusCode"=>200));
+                //         echo json_encode($array);
+                //        // echo json_encode(array("statusCode"=>200));
 
-                    } 
+                //     } 
+                        //create an array
+                        $emparray = array();
+                        while($row =mysqli_fetch_assoc($result))
+                        {
+                            $emparray[] = $row;
+                        }
+                        echo json_encode($emparray);
+
+
+
+
               }
       
       
@@ -309,15 +320,23 @@ case 'Update_profile':
   
               if (mysqli_num_rows($result) > 0) {
                   // output data of each row
-                  while($row = mysqli_fetch_assoc($result)) {
-                    $tem = $row;
-                    //  echo "User found";
-        $array = array("status"=>"success","message"=>"successful","m_uuid "=>$row['m_uuid'],"member_name"=>$row['member_name'],"member_last_name"=>$row['member_last_name'],"membership_id"=>$row['membership_id'],"national_id"=>$row['national_id'],"Membership_email"=>$row['Membership_email']);
+                //   while($row = mysqli_fetch_assoc($result)) {
+                //     $tem = $row;
+                //     //  echo "User found";
+                //     $array = array("status"=>"success","message"=>"successful","m_uuid "=>$row['m_uuid'],"member_name"=>$row['member_name'],"member_last_name"=>$row['member_last_name'],"membership_id"=>$row['membership_id'],"national_id"=>$row['national_id'],"Membership_email"=>$row['Membership_email']);
 
-                        echo json_encode($array);
-                       // echo json_encode(array("statusCode"=>200));
+                //         echo json_encode($array);
+                //        // echo json_encode(array("statusCode"=>200));
 
-                    } 
+                //     } 
+                    $emparray = array();
+                    while($row =mysqli_fetch_assoc($result))
+                    {
+                        $emparray[] = $row;
+                    }
+                    echo json_encode($emparray);
+
+
               }
       
       
@@ -330,18 +349,27 @@ case 'Update_profile':
   
               if (mysqli_num_rows($result) > 0) {
                   // output data of each row
-                  while($row = mysqli_fetch_assoc($result)) {
-                    $tem = $row;
-                    //  echo "User found";
-                    $array = array("status"=>"success","message"=>"successful","UU_ID"=>$row['UU_ID'],"First_name"=>$row['First_name'],"Last_name"=>$row['Last_name']
-                    ,"Age"=>$row['Age'],"Weight"=>$row['Weight'],"Bloodpressure"=>$row['Bloodpressure'],"Email"=>$row['Email'],"Phone_number"=>$row['Phone_number']
-                    ,"Existing_illness"=>$row['Existing_illness'],"Location"=>$row['Location'],"Prescription"=>$row['Prescription'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude']
-                    ,"Longitude"=>$row['Longitude'],"Weight"=>$row['Weight']);
+                //   while($row = mysqli_fetch_assoc($result)) {
+                //     $tem = $row;
+                //     //  echo "User found";
+                //     $array = array("status"=>"success","message"=>"successful","UU_ID"=>$row['UU_ID'],"First_name"=>$row['First_name'],"Last_name"=>$row['Last_name']
+                //     ,"Age"=>$row['Age'],"Weight"=>$row['Weight'],"Bloodpressure"=>$row['Bloodpressure'],"Email"=>$row['Email'],"Phone_number"=>$row['Phone_number']
+                //     ,"Existing_illness"=>$row['Existing_illness'],"Location"=>$row['Location'],"Prescription"=>$row['Prescription'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude']
+                //     ,"Longitude"=>$row['Longitude'],"Weight"=>$row['Weight']);
             
-                        echo json_encode($array);
-                       // echo json_encode(array("statusCode"=>200));
+                //         echo json_encode($array);
+                //        // echo json_encode(array("statusCode"=>200));
 
-                    } 
+                //     } 
+
+                    $emparray = array();
+                    while($row =mysqli_fetch_assoc($result))
+                    {
+                        $emparray[] = $row;
+                    }
+                    echo json_encode($emparray);
+
+
               }
       
       
