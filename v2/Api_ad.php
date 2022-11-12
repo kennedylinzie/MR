@@ -378,6 +378,93 @@ case 'Update_profile':
 
 
 
+case 'verify_patient':
+    //veriefy remnder users patient acount
+    if(isTheseParametersAvailable(array('UU_ID'))){
+        $UU_ID = $_POST['UU_ID'];
+        $ve = 1;
+                                                                             
+                $sql = "UPDATE `patient_table` SET  Verified='$ve' WHERE UU_ID='$UU_ID'";
+
+                        if (mysqli_query($conn, $sql)) {
+                                         
+                                  $array = array("status"=>"success","message"=>"Successful");
+                                  echo json_encode($array);
+                                }
+                                else {
+                                    //echo json_encode(array("statusCode"=>201));
+                                   // echo "NOT successful";
+                                    $array = array("status"=>"failed","message"=>"Unsuccessful");
+                                    echo json_encode($array);
+                                }
+       }
+break; 
+
+case 'UNverify_patient':
+    //veriefy remnder users patient acount
+    if(isTheseParametersAvailable(array('UU_ID'))){
+        $UU_ID = $_POST['UU_ID'];
+        $ve = 0;
+                                                                             
+                $sql = "UPDATE `patient_table` SET  Verified='$ve' WHERE UU_ID='$UU_ID'";
+
+                        if (mysqli_query($conn, $sql)) {
+                                         
+                                  $array = array("status"=>"success","message"=>"Successful");
+                                  echo json_encode($array);
+                                }
+                                else {
+                                    //echo json_encode(array("statusCode"=>201));
+                                   // echo "NOT successful";
+                                    $array = array("status"=>"failed","message"=>"Unsuccessful");
+                                    echo json_encode($array);
+                                }
+       }
+break; 
+
+case 'delete_patient':
+    //veriefy remnder users patient acount
+    if(isTheseParametersAvailable(array('UU_ID'))){
+        $UU_ID = $_POST['UU_ID'];
+      
+                                                                             
+                $sql = "DELETE FROM `patient_table` WHERE UU_ID='$UU_ID'";
+
+                        if (mysqli_query($conn, $sql)) {
+                                         
+                                  $array = array("status"=>"success","message"=>"Successful");
+                                  echo json_encode($array);
+                                }
+                                else {
+                                    //echo json_encode(array("statusCode"=>201));
+                                   // echo "NOT successful";
+                                    $array = array("status"=>"failed","message"=>"Unsuccessful");
+                                    echo json_encode($array);
+                                }
+       }
+break; 
+
+case 'delete_member':
+    //veriefy remnder users patient acount
+    if(isTheseParametersAvailable(array('m_uuid'))){
+        $m_uuid = $_POST['m_uuid'];
+      
+                                                                             
+                $sql = "DELETE FROM `member_table` WHERE m_uuid='$m_uuid'";
+
+                        if (mysqli_query($conn, $sql)) {
+                                         
+                                  $array = array("status"=>"success","message"=>"Successful");
+                                  echo json_encode($array);
+                                }
+                                else {
+                                    //echo json_encode(array("statusCode"=>201));
+                                   // echo "NOT successful";
+                                    $array = array("status"=>"failed","message"=>"Unsuccessful");
+                                    echo json_encode($array);
+                                }
+       }
+break; 
 
 
 
@@ -683,7 +770,59 @@ case 'pullguardData':
            
    break; 
 
-    case 'Delete_guard':
+   case 'pullguardData_':
+    if(isTheseParametersAvailable(array('UU_ID'))){
+        $patient_id = $_POST['UU_ID'];  
+
+               $sql = "SELECT Prescription FROM patient_table WHERE UU_ID='$patient_id'";
+
+               $result = mysqli_query($conn, $sql);
+       
+               if (  mysqli_num_rows($result) > 0) {
+       
+                   // output data of each row
+                   while($row[] = mysqli_fetch_assoc($result)) {
+       
+                       $tem = $row;
+       
+                       $json = json_encode($tem);
+       
+    
+                   }
+       
+               } 
+                   echo $json;
+            }
+           
+   break; 
+
+   case 'pullguardData_all':
+    if(isTheseParametersAvailable(array('UU_ID'))){
+        $patient_id = $_POST['UU_ID'];  
+
+               $sql = "SELECT Prescription FROM patient_table";
+
+               $result = mysqli_query($conn, $sql);
+       
+               if (  mysqli_num_rows($result) > 0) {
+       
+                   // output data of each row
+                   while($row[] = mysqli_fetch_assoc($result)) {
+       
+                       $tem = $row;
+       
+                       $json = json_encode($tem);
+       
+    
+                   }
+       
+               } 
+                   echo $json;
+            }
+           
+   break; 
+   
+   case 'Delete_guard':
         if(isTheseParametersAvailable(array('patient_id','g_name'))){
         $g_name = $_POST['g_name'];  
         $patient_id = $_POST['patient_id'];  

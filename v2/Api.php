@@ -91,6 +91,47 @@
 }
             
  break; 
+
+
+ case 'login_verified':
+ 
+    if(isTheseParametersAvailable(array('Email', 'First_name'))){
+
+ $Email = $_POST['Email']; 
+// $Password = md5($_POST['Password']);
+ $First_name = $_POST['First_name'];
+
+     $duplicate=mysqli_query($conn,"SELECT * FROM patient_table WHERE  Email='$Email' AND First_name='$First_name'");
+             if (mysqli_num_rows($duplicate)>0)
+             {
+                 $sql = "SELECT * FROM patient_table WHERE  Email='$Email' AND First_name='$First_name'";
+                 $result = mysqli_query($conn, $sql);
+
+                 if (mysqli_num_rows($result) > 0) {
+                     // output data of each row
+                     while($row = mysqli_fetch_assoc($result)) {
+                     $tem = $row;
+                     //  echo "User found";
+         $array = array("status"=>"success","message"=>"successful","UU_ID"=>$row['UU_ID'],"First_name"=>$row['First_name'],"Last_name"=>$row['Last_name']
+         ,"Age"=>$row['Age'],"Weight"=>$row['Weight'],"Bloodpressure"=>$row['Bloodpressure'],"Email"=>$row['Email']
+         ,"Phone_number"=>$row['Phone_number'],"Existing_illness"=>$row['Existing_illness'],"Location"=>$row['Location']
+         ,"Prescription"=>$row['Prescription'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude'],"Longitude"=>$row['Longitude'],"Membership_number"=>$row['Membership_number']);
+
+                     echo json_encode($array);
+
+                     }  }
+             }
+             else{
+     $array = array("status"=>"failed","message"=>"Wrong Email or password");
+     echo json_encode($array);
+
+     }
+
+    
+    }
+break; 
+
+
  
  case 'login':
  
