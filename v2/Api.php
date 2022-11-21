@@ -9,7 +9,7 @@
  switch($_GET['apicall']){
  
  case 'signup':
-            if(isTheseParametersAvailable(array('First_name','Last_name','Age','Weight','Bloodpressure','Phone_number','Email','Existing_illness','Location','Password','Prescription','Latitude','Longitude','Membership_number'))){
+            if(isTheseParametersAvailable(array('First_name','Last_name','Age','Weight','Bloodpressure','Phone_number','Email','Existing_illness','Location','Password','Latitude','Longitude','Membership_number'))){
             
         //PATIENT register
         $First_name = $_POST['First_name']; 
@@ -31,7 +31,7 @@
     $verified = "";
 
     if($First_name == "" || $Last_name == "" || $Age == "" || $Weight == "" || $Bloodpressure == "" || $Email == "" || $Phone_number == ""  || $Location == ""
-    && $Password == "" || $Prescription == "" || $Latitude == "" || $Longitude == "" || $Membership_number ="")
+    && $Password == "" || $Latitude == "" || $Longitude == "" || $Membership_number ="")
     {
         
           $array = array("status"=>"failed","message"=>"data missing somewhere");
@@ -173,7 +173,7 @@ break;
                      $array = array("status"=>"success","message"=>"successful","UU_ID"=>$row['UU_ID'],"First_name"=>$row['First_name'],"Last_name"=>$row['Last_name']
                      ,"Age"=>$row['Age'],"Weight"=>$row['Weight'],"Bloodpressure"=>$row['Bloodpressure'],"Email"=>$row['Email']
                      ,"Phone_number"=>$row['Phone_number'],"Existing_illness"=>$row['Existing_illness'],"Location"=>$row['Location']
-                     ,"Prescription"=>$row['Prescription'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude'],"Longitude"=>$row['Longitude'],"Membership_number"=>$row['Membership_number']);
+                     ,"Prescription"=>$row['Prescription'],"Drugs"=>$row['Drugs'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude'],"Longitude"=>$row['Longitude'],"Membership_number"=>$row['Membership_number']);
  
                                  echo json_encode($array);
  
@@ -227,6 +227,36 @@ case 'pullUserData':
     
     }
 break; 
+
+case 'pullUserData_backup':
+    //fetch user data
+    if(isTheseParametersAvailable(array('UU_ID'))){
+                 
+           // check if user is present and pull data
+     $UU_ID = $_POST['UU_ID'];
+   
+     $sql = "SELECT * FROM patient_table WHERE  UU_ID='$UU_ID'";
+     $result = mysqli_query($conn, $sql);
+   
+               if (mysqli_num_rows($result) > 0) {
+                   // output data of each row
+                   while($row = mysqli_fetch_assoc($result)) {
+                       $tem = $row;
+                   //echo "User found";
+   
+             
+               $array = array("status"=>"success","message"=>"successful","UU_ID"=>$row['UU_ID'],"First_name"=>$row['First_name'],"Last_name"=>$row['Last_name']
+               ,"Age"=>$row['Age'],"Weight"=>$row['Weight'],"Bloodpressure"=>$row['Bloodpressure'],"Email"=>$row['Email']
+               ,"Phone_number"=>$row['Phone_number'],"Existing_illness"=>$row['Existing_illness'],"Location"=>$row['Location']
+               ,"Prescription"=>$row['Prescription'],"Drugs"=>$row['Drugs'],"Verified"=>$row['Verified'],"Latitude"=>$row['Latitude'],"Longitude"=>$row['Longitude'],"Membership_number"=>$row['Membership_number']);
+
+                       echo json_encode($array);
+   
+                   }
+               }
+       
+       }
+   break; 
 
 case 'Update_user':
     //fetch user data
@@ -341,11 +371,12 @@ case 'Update_user':
 
    case 'Update_prescription':
     //fetch user data
-    if(isTheseParametersAvailable(array('UU_ID','Prescription'))){
+    if(isTheseParametersAvailable(array('UU_ID','Prescription','Drugs'))){
                  
     //	user update other details
     $UU_ID = $_POST['UU_ID'];
     $Prescription = $_POST['Prescription'];
+    $Drugs = $_POST['Drugs'];
    
 
 
@@ -365,7 +396,7 @@ case 'Update_user':
 
                                                                                        
 
-                $sql = "UPDATE `patient_table` SET Prescription='$Prescription' WHERE UU_ID='$UU_ID'";
+                $sql = "UPDATE `patient_table` SET Prescription='$Prescription', Drugs='$Drugs' WHERE UU_ID='$UU_ID'";
 
                         if (mysqli_query($conn, $sql)) {
                                          
