@@ -224,7 +224,6 @@ case 'pullUserData':
 
                 }
             }
-    
     }
 break; 
 
